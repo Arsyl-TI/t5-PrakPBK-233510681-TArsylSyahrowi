@@ -14,7 +14,7 @@ export const useTodoStore = defineStore('todo', {
     async fetchTodos() {
       this.loading = true
       try {
-        const res = await axios.get('http://localhost:3000/todos')
+        const res = await axios.get('https://jsonplaceholder.typicode.com/posts')
         this.todos = res.data
       } catch (error) {
         console.error('Fetch todos gagal:', error)
@@ -24,7 +24,7 @@ export const useTodoStore = defineStore('todo', {
     },
     async tambahTodo(title) {
       try {
-        const res = await axios.post('http://localhost:3000/todos', {
+        const res = await axios.post('https://jsonplaceholder.typicode.com/posts', {
           title,
           completed: false
         })
@@ -35,7 +35,7 @@ export const useTodoStore = defineStore('todo', {
     },
     async hapusTodo(id) {
       try {
-        await axios.delete(`http://localhost:3000/todos/${id}`)
+        await axios.delete(`https://jsonplaceholder.typicode.com/posts/${id}`)
         this.todos = this.todos.filter(t => t.id !== id)
       } catch (error) {
         console.error('Hapus todo gagal:', error)
@@ -43,7 +43,7 @@ export const useTodoStore = defineStore('todo', {
     },
     async editTodo(id, updatedData) {
       try {
-        const res = await axios.put(`http://localhost:3000/todos/${id}`, updatedData)
+        const res = await axios.put(`https://jsonplaceholder.typicode.com/posts/${id}`, updatedData)
         const index = this.todos.findIndex(t => t.id === id)
         if (index !== -1) this.todos[index] = res.data
       } catch (error) {
@@ -52,7 +52,3 @@ export const useTodoStore = defineStore('todo', {
     }
   }
 })
-
-if (req.headers.get('Authorization') !== `Bearer ${process.env.CRON_SECRET}`) {
-  return res.status(401).end('Unauthorized');
-}
